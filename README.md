@@ -123,41 +123,41 @@ Body expression used:
 ![ADF complex orchestration](images/adf-complex-orchestration.jpg)
 In this example I call the pipeline above multiple times, with different parameters, in order to refresh subsets of tables and partitions sequentially. Each activity will call the pipeline defined in step 7 and will specify the target workspace and XMLA script to be executed. 
 
-**XMLA script example 1** - fully refresh a table called **DimLocation** from a dataset called **daxop**.
+#### XMLA script example 1 - fully refresh a table called Customer from a dataset called adventureworks.
+```
+
+{"sequence":{"operations": [{"refresh": 
+                    {"type": "full","objects": 
+                        [
+                            {"database": "adventureworks","table": "Customer"}
+                            ]
+                            }
+                        }]}}
+
+```
+#### XMLA script example 2 - fully refresh a table called SalesOrderHeader and a partition called PartitionBlack from a dataset called adventureworks.
+
 ```
 {"sequence":{"operations": [{"refresh": 
                     {"type": "full","objects": 
                         [
-                            {"database": "daxop","table": "DimLocation"}
+                            {"database": "adventureworks","table": "Product", "partition": "PartitionBlack"},
+                            {"database": "adventureworks","table": "SalesOrderHeader"}
                             ]
                             }
                         }]}}
 ```
-
-**XMLA script example 2** - fully refresh a table called **DimStore** and a partition called **PartitionUK** from a dataset called **daxop**.
-
-```
-{"sequence":{"operations": [{"refresh": 
-                    {"type": "full","objects": 
-                        [
-                            {"database": "daxop","table": "DimProduct", "partition": "PartitionUK"},
-                            {"database": "daxop","table": "DimStore"}
-                            ]
-                            }
-                        }]}}
-```
-
-**XMLA script example 3** - fully refresh a table called **FactSales** from a dataset called **daxop**, while also specifying a max parallelism of 10.
-
+#### XMLA script example 3 - fully refresh a table called SalesOrderDetail from a dataset called adventureworks, while also specifying a max parallelism of 10.
 ```
 {"sequence":{"maxParallelism": 10,"operations": [{"refresh": 
                     {"type": "full","objects": 
                         [
-                            {"database": "daxop","table": "FactSales"}
+                            {"database": "adventureworks","table": "SalesOrderDetail"}
                             ]
                             }
                         }]}}
 ```
+
 
 ## Reference List:
 - [Data - Marc: Automate Power BI single table refresh using Azure Data Factory and Azure Automation](https://data-marc.com/2021/10/28/automate-power-bi-single-table-refresh-using-azure-data-factory-and-azure-automation/)
